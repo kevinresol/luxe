@@ -6,6 +6,11 @@ import phoenix.*;
 import phoenix.geometry.*;
 
 class SphereGeometry extends Geometry {
+    
+    public var flipx(default, set):Bool = false;
+    public var flipy(default, set):Bool = false;
+    
+    var verts:Array<Vertex>;
 
     public function new( _options:SphereGeometryOptions ) {
         
@@ -15,9 +20,12 @@ class SphereGeometry extends Geometry {
         
         generate_vertices(_options);
         
+        if(_options.flipx != null) flipx = _options.flipx;
+        if(_options.flipy != null) flipy = _options.flipy;
+        
     }
     
-    function generate_vertices(_options:SphereGeometryOptions) {
+    function generate_vertices( _options:SphereGeometryOptions ) {
         
         // https://github.com/glo-js/primitive-sphere/blob/master/primitive-sphere.js
         
@@ -31,7 +39,7 @@ class SphereGeometry extends Geometry {
         var rot = new Matrix();
         var vec = new Vector();
         
-        var verts = [];
+        verts = [];
 
         for (z in 0...z_steps + 1) {
             
@@ -75,6 +83,22 @@ class SphereGeometry extends Geometry {
             }
         }
     }
+    
+    function set_flipx(v:Bool) {
+        
+        if(flipx == v) return v;
+        for(v in verts) v.uv.uv0.u = 1 - v.uv.uv0.u;
+        return flipx = v;
+        
+    }
+    
+    function set_flipy(v:Bool) {
+        
+        if(flipy == v) return v;
+        for(v in verts) v.uv.uv0.v = 1 - v.uv.uv0.v;
+        return flipy = v;
+        
+    }
 }
 
 typedef SphereGeometryOptions = {
@@ -85,5 +109,9 @@ typedef SphereGeometryOptions = {
     @:optional var radius : Float;
         /** a number of steps to draw the sphere */
     @:optional var steps : Int;
+    
+    @:optional var flipx : Bool;
+    
+    @:optional var flipy : Bool;
     
 }
