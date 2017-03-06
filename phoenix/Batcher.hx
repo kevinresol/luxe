@@ -176,6 +176,7 @@ class Batcher {
         empty(_drop);
 
         renderer.remove_batch(this);
+        renderer.stats.batchers--;
 
         emitter = null;
         geometry = null;
@@ -400,7 +401,7 @@ class Batcher {
         // trace('batcher $name / view ${view.name} / viewport:${view.viewport}');
 
             //Set the viewport to the view
-        renderer.state.viewport( view.viewport.x, view.viewport.y, view.viewport.w, view.viewport.h );
+        renderer.state.viewport(view.viewport.x, view.viewport.y, view.viewport.w, view.viewport.h);
 
     } //update_view
 
