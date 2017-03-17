@@ -170,6 +170,7 @@ class Texture extends Resource {
         if(type == TextureType.tex_2D) {
             def(_target, TextureSubmitTarget.tex_2D);
         } else {
+            #if android _target = 0x8D65; #end
             assertnull(_target, 'Texture submit to a non 2D texture requires the _target to be specified');
         }
 
